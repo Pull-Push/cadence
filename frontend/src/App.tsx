@@ -5,9 +5,10 @@ import viteLogo from './assets/vite.svg'
 import './App.css'
 import DevelopmentStatus from './components/DevelopmentStatus'
 
+
 function App() {
   const [count, setCount] = useState(0)
-
+  const [isOperational, setIsOperational] = useState(false)
   return (
     <>
       <section id="center">
@@ -18,7 +19,8 @@ function App() {
         </div>
         <div>
           <h1>Welcome to CADence</h1>
-          <DevelopmentStatus message='Frontend operational' />
+          <DevelopmentStatus message={isOperational ? "Frontend Operational" : "System Idle"} />
+          <button onClick={() => setIsOperational(!isOperational)}>{isOperational ? 'Set Idle' : 'Set Operational'}</button>
           <p>
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
