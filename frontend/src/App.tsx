@@ -4,6 +4,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 import DevelopmentStatus from './components/DevelopmentStatus'
+import UnitCard from './components/UnitCard'
+import  {sampleUnits} from "./data/units"
+
 
 
 function App() {
@@ -21,6 +24,15 @@ function App() {
           <h1>Welcome to CADence</h1>
           <DevelopmentStatus message={isOperational ? "Frontend Operational" : "System Idle"} />
           <button onClick={() => setIsOperational(!isOperational)}>{isOperational ? 'Set Idle' : 'Set Operational'}</button>
+          <div>
+            <p>Total Units: {sampleUnits.length}</p>
+            {sampleUnits.map((unit) =>(
+              <UnitCard
+              key={unit.id}
+              unit={unit}
+              />
+            ))}
+          </div>
           <p>
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
