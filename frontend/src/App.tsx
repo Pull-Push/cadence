@@ -3,15 +3,28 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import type { Unit, UnitStatus } from "./types/unit"
 import DevelopmentStatus from './components/DevelopmentStatus'
 import UnitCard from './components/UnitCard'
 import  {sampleUnits} from "./data/units"
+import AlertMap from './components/AlertMap'
 
 
 
 function App() {
   const [count, setCount] = useState(0)
   const [isOperational, setIsOperational] = useState(false)
+  const [units,  setUnits ] = useState<Unit[]>(sampleUnits)
+  
+  function updateUnitStatus( unitId: string, newStatus:UnitStatus){
+    setUnits((previousUnits) =>
+    previousUnits.map((unit): Unit =>{
+      if(unit.id === unitId){
+        return{...unit, status: newStatus}
+      }
+      return unit
+    }))
+  }
   return (
     <>
       <section id="center">
@@ -25,17 +38,24 @@ function App() {
           <DevelopmentStatus message={isOperational ? "Frontend Operational" : "System Idle"} />
           <button onClick={() => setIsOperational(!isOperational)}>{isOperational ? 'Set Idle' : 'Set Operational'}</button>
           <div>
-            <p>Total Units: {sampleUnits.length}</p>
-            {sampleUnits.map((unit) =>(
+            <p>Total Units: {units.length}</p>
+            <button onClick={() => updateUnitStatus('unit-001', "dispatched")}>
+              Dispatch Engine 4
+            </button>
+            <button onClick={() => updateUnitStatus('unit-002', 'on_scene')}>
+              Medic 12 on scene
+            </button>
+            {units.map((unit) =>(
               <UnitCard
               key={unit.id}
               unit={unit}
+              onStatusChange={updateUnitStatus}
               />
             ))}
           </div>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+          <h2>Public Safety Alert Map</h2>
+          <AlertMap/>
+
         </div>
         <button
           type="button"
